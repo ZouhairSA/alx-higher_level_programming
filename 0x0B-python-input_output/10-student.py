@@ -1,23 +1,32 @@
 #!/usr/bin/python3
-""" My class module
-"""
+"""Defines a class Student."""
 
-class MyClass:
-    """ My class
-    """
 
-    score = 0
+class Student:
+    """Represent a student."""
 
-    def __init__(self, name, number = 4):
-        self.__name = name
-        self.number = number
-        self.is_team_red = (self.number % 2) == 0
+    def __init__(self, first_name, last_name, age):
+        """Initialize a new Student.
 
-    def win(self):
-        self.score += 1
+        Args:
+            first_name (str): The first name of the student.
+            last_name (str): The last name of the student.
+            age (int): The age of the student.
+        """
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
 
-    def lose(self):
-        self.score -= 1
+    def to_json(self, attrs=None):
+        """Get a dictionary representation of the Student.
 
-    def __str__(self):
-        return "[MyClass] {} - {:d} => {:d}".format(self.__name, self.number, self.score)
+        If attrs is a list of strings, represents only those attributes
+        included in the list.
+
+        Args:
+            attrs (list): (Optional) The attributes to represent.
+        """
+        if (type(attrs) == list and
+                all(type(ele) == str for ele in attrs)):
+            return {k: getattr(self, k) for k in attrs if hasattr(self, k)}
+        return self.__dict__
